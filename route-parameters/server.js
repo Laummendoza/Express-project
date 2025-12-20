@@ -16,6 +16,12 @@ const friends = [{
     name: 'Diego'
 }];
 
+// Middleware que registra la hora de cada solicitud. No la muestra en browser ya que si lo hiciera no continuaria a otra ruta ( res.send() corta el flujo).
+app.use((req, res, next) => {
+    console.log('Time:', Date.now());
+    next();
+});
+
 app.get('/friends', (req, res) => {
     res.status(200).json(friends); // Devuelve la lista completa de amigos como Json 
 });
@@ -33,11 +39,13 @@ app.get("/friends/:friendId", (req, res) => {
 
 });
 
+
+
 app.get("messages", (req, res) => {
     res.send("<h1>Messages</h1>");
 });
 
 app.listen(PORT, () => {
-  console.log(`Servidor escuchando en puerto ${PORT}`);
+    console.log(`Servidor escuchando en puerto ${PORT}`);
 });
 
