@@ -22,6 +22,21 @@ app.use((req, res, next) => {
     next();
 });
 
+app.use(express.json()); // Middleware para parsear JSON en el body de las solicitudes
+
+app.post("/newFriends", (req, res) => {
+    if(!req.body.name){
+        return res.status(400).json({ error: "Name is required" });
+    }
+    const newFriend = {
+        name: req.body.name,
+        id: friends.length
+    };
+    friends.push(newFriend);
+    res.json(newFriend);
+})
+
+
 app.get('/friends', (req, res) => {
     res.status(200).json(friends); // Devuelve la lista completa de amigos como Json 
 });
@@ -41,9 +56,7 @@ app.get("/friends/:friendId", (req, res) => {
 
 
 
-app.get("messages", (req, res) => {
-    res.send("<h1>Messages</h1>");
-});
+
 
 app.listen(PORT, () => {
     console.log(`Servidor escuchando en puerto ${PORT}`);
