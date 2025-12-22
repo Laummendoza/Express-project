@@ -1,20 +1,13 @@
 const express = require('express');
 
+const friendsController = require("./controllers/friendsController");
+const messagesController = require("./controllers/messagesController");
+
 const app = express();
 
 const PORT = 3000;
 
-const friends = [{
-    id: 0,
-    name: 'Pedro'
-}, {
-    id: 1,
-    name: 'Juan'
-},
-{
-    id: 2,
-    name: 'Diego'
-}];
+
 
 // Middleware que registra la hora de cada solicitud. No la muestra en browser ya que si lo hiciera no continuaria a otra ruta ( res.send() corta el flujo).
 app.use((req, res, next) => {
@@ -22,40 +15,18 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use(express.json()); // Middleware para parsear JSON en el body de las solicitudes
 
-app.post("/newFriend", (req, res) => {
-    if(!req.body.name){
-        return res.status(400).json({ error: "Name is required" });
-    }
-    const newFriend = {
-        name: req.body.name,
-        id: friends.length
-    };
-    friends.push(newFriend);
-    res.json(newFriend);
-})
+// Middleware para parsear JSON en el body de las solicitudes
+app.use(express.json());
 
 
-app.get('/friends', (req, res) => {
-    res.status(200).json(friends); // Devuelve la lista completa de amigos como Json 
-});
+//requests
+app.post("/newFriend", friendsController.postNewFriend);
+app.get('/friends', friendsController.getFriends);
+app.get("/friends/:friendId", friendsController.getFriendById);
 
-app.get("/friends/:friendId", (req, res) => {
-    const friendId = Number(req.params.friendId);
-    const friend = friends[friendId];
-    if (friend) {
-        res.json(friend);
-    }
-
-    else {
-        res.status(404).json({ error: "Friend not found" });
-    }
-
-});
-
-
-
+app.get("/messages", messagesController.getMessages);
+app.post("/messages", messagesController.postMessages);
 
 
 app.listen(PORT, () => {
