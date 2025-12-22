@@ -24,7 +24,7 @@ app.use((req, res, next) => {
 
 app.use(express.json()); // Middleware para parsear JSON en el body de las solicitudes
 
-app.post("/newFriends", (req, res) => {
+app.post("/newFriend", (req, res) => {
     if(!req.body.name){
         return res.status(400).json({ error: "Name is required" });
     }
