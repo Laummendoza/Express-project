@@ -1,33 +1,27 @@
 const express = require('express');
 
-const friendsController = require("./controllers/friendsController");
-const messagesController = require("./controllers/messagesController");
+
+const friendsRouter = require("./routes/friendsRouter");
+const messagesRouter = require("./routes/messagesRouter");
 
 const app = express();
-
-const PORT = 3000;
-
+const PORT = process.env.PORT || 3000;
 
 
-// Middleware que registra la hora de cada solicitud. No la muestra en browser ya que si lo hiciera no continuaria a otra ruta ( res.send() corta el flujo).
-app.use((req, res, next) => {
-    console.log('Time:', Date.now());
-    next();
+//middleware para medir el tiempo de respuesta
+app.use((req,res,next)=>{
+const start = Date.now();
+next();
+const delta = Date.now() - start;
+console.log(`${req.method} ${req.baseUrl}${req.url} ${delta}ms`);
 });
 
 
-// Middleware para parsear JSON en el body de las solicitudes
 app.use(express.json());
 
 
-//requests
-app.post("/newFriend", friendsController.postNewFriend);
-app.get('/friends', friendsController.getFriends);
-app.get("/friends/:friendId", friendsController.getFriendById);
-
-app.get("/messages", messagesController.getMessages);
-app.post("/messages", messagesController.postMessages);
-
+app.use("/friends", friendsRouter);
+app.use ("/messages", messagesRouter);   
 
 app.listen(PORT, () => {
     console.log(`Servidor escuchando en puerto ${PORT}`);
