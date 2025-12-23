@@ -1,29 +1,41 @@
 # Friends API – Express Practice
 
-Mini proyecto desarrollado con Node.js y Express como práctica de backend.
+Mini proyecto de **API REST** desarrollado con **Node.js** y **Express**, enfocado en la práctica de conceptos fundamentales de backend como **routing**, **parámetros dinámicos**, **middlewares**, **validación de datos** y **respuestas en formato JSON**.
 
-El objetivo es aplicar el  manejo de parámetros con responses en formato JSON y estructura de un servidor Express.
+El proyecto fue creciendo de forma incremental como parte de mi proceso de aprendizaje, incorporando una estructura más modular y cercana a un proyecto real.
 
-## Tecnologías utilizadas
+##  Tecnologías utilizadas
 
-- Node.js
-- Express
-- JavaScript (CommonJS)
+* Node.js
+* Express
+* JavaScript (CommonJS)
 
 ## Funcionalidades
 
-- Ruta GET para obtener la lista de amigos
-- Ruta GET con parámetro dinámico para obtener un amigo por ID
-- Manejo de errores simples cuando el recurso no existe
+* Rutas **GET** para obtener la lista de amigos
+* Ruta **GET** con parámetro dinámico (`:friendId`) para obtener un amigo por ID
+* Ruta **POST** para crear nuevos amigos con validación de datos
+* Rutas **GET** y **POST** para gestión de mensajes
+* Manejo básico de errores (validación y recursos inexistentes)
+* Respuestas en formato **JSON**
+* Separación de responsabilidades mediante **routers** y **controllers**
+* Middleware de logging (IP y tiempo de respuesta)
 
-## Estructura del proyecto
+##  Estructura del proyecto
 
-- server.js  
-- package.json  
-- package-lock.json  
-- .gitignore  
+```
+route-parameters/
+├── controllers/
+│   └── friendsController.js
+├── routes/
+│   └── friendsRouter.js
+├── server.js
+├── package.json
+├── package-lock.json
+└── README.md
+```
 
-## Cómo ejecutar el proyecto
+## ▶️ Cómo ejecutar el proyecto
 
 1. Clonar el repositorio:
 
@@ -34,7 +46,7 @@ git clone https://github.com/Laummendoza/Express-project.git
 2. Entrar al directorio del proyecto:
 
 ```bash
-cd Express-project
+cd Express-project/route-parameters
 ```
 
 3. Instalar dependencias:
@@ -55,23 +67,39 @@ El servidor quedará corriendo en:
 http://localhost:3000
 ```
 
-## Endpoints disponibles
-- GET /friends
+## 🔗 Endpoints disponibles
 
-Devuelve la lista completa de amigos.
+### Friends
 
-- GET /friends/:friendId
+* **GET /friends**
+  Devuelve la lista completa de amigos.
 
-Devuelve un amigo específico según su ID.
+* **GET /friends/:friendId**
+  Devuelve un amigo específico según su ID.
 
-## Notas
+* **POST /friends**
+  Crea un nuevo amigo. Requiere el siguiente body en formato JSON:
 
-Los datos se almacenan en memoria.
+```json
+{
+  "name": "Nombre del amigo"
+}
+```
+### Messages
 
-Proyecto con fines educativos.
+* **GET /messages**
+  Devuelve la lista completa de mensajes.
 
-No utiliza base de datos.
+* **POST /messages**
+  Crea un nuevo mensaje.
 
-## Autora
 
-Laura Mendoza
+
+## 📝 Notas
+
+* Los datos se almacenan en memoria (no utiliza base de datos).
+* Proyecto con fines educativos y de práctica backend.
+
+## 👩‍💻 Autora
+
+**Laura Mendoza**
